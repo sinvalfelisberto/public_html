@@ -1,0 +1,175 @@
+/* CSS HEX */
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Merriweather:wght@300&family=Poppins:wght@200;500;900&family=Roboto:ital,wght@0,500;0,700;0,900;1,400&family=UnifrakturMaguntia&display=swap');
+
+
+:root {
+    --davys-gray: #4d4b50ff;
+    --byzantine-blue: #0c4ce2ff;
+    --off-red-rgb: #f30505ff;
+    --turkey-red: #a50405ff;
+    --platinum: #eaeaeaff;
+    --gold-metallic: #d4af37;
+    --white: #fff;
+    --lightgrey: lightgrey;
+
+    --text-color01: rgb(77, 75, 80)   ;
+    --text-color02: rgb(105, 103, 108);
+    --text-color03: rgb(133, 131, 136);
+    --text-color04: rgb(161, 159, 164);
+    --text-color05: rgb(189, 187, 192);
+    --text-color06: rgb(217, 215, 220);
+}
+
+body {
+    background-color: lightgrey;
+}
+
+html {
+    scroll-behavior: smooth;
+    transition: 1s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.navbar .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28212, 175, 55, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e")
+}
+
+.navbar .navbar-toggler {
+    border-color: var(--gold-metallic);
+    color: rgba(1, 1, 1, 0);
+}
+
+.textoNavegacao {
+    
+    color: var(--platinum);
+}
+
+.textEdition {
+    font-family: Merriweather;
+    font-size: 16px;
+    color: var(--gold-metallic);
+
+}
+
+.letraE{
+    font-size: 20px;
+}
+
+.textoFonte {
+    font-family: UnifrakturMaguntia;
+    font-size: 28px;
+    color: var(--gold-metallic)
+}
+
+.logo-marca {
+    width: 45px;
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    box-shadow: none !important;
+    backdrop-filter: blur(5px) !important;
+}
+
+.nav-link {
+    color: var(--platinum);    
+}
+
+
+.nav-link:hover {
+    color: var(--gold-metallic);
+    /* border-bottom: #d4af37 solid 1px; */
+
+}
+
+ .show .nav-link:hover{
+    border: none;
+}
+
+
+
+.hero-content {
+    background-image: linear-gradient(rgb(77, 75, 80), rgb(161, 159, 164));
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: var(--platinum);
+    transition: 0.8s ease-in-out;
+}
+
+
+
+
+.rodape {
+    background-image: linear-gradient(rgb(77, 75, 80), rgb(0, 0, 0));
+    height: 200px;
+    color: var(--platinum);
+}
+
+.scripta {
+    font-family: Allura;
+    color: var(--gold-metallic);
+    font-size: 32px;
+}
+
+
+
+@media (max-width: 768px) {
+    .navbar {
+      background-color: var(--davys-gray) !important; /* Define uma cor de fundo sólida para dispositivos móveis */
+      transition: none !important; /* Remove a transição de cor de fundo para dispositivos móveis */
+    }
+    .rodape .scripta {
+        font-size: 24px;
+    }
+  }
+
+  .btn-robedit {
+
+    width: 15rem;
+    padding: 15px 15px;
+    color: var(--white);
+    background-color: var(--davys-gray);
+    border: none;
+    transition: 0.3s ease-in-out;
+  }
+
+  .btn-robedit:hover {
+    background-color: var(--davys-gray);
+    color: var(--gold-metallic);
+    transform: scale(1.05);
+    
+  }
+  /* .btn-robedit:not(:last-child) {
+    margin-right: 10px;
+  } */
+
+  /* .swiper {
+    width: 100%;
+    height: 100%;
+    }
+    
+    .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    
+    .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    } 
+    
+   */
+    
+   

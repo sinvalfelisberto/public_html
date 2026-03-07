@@ -1,0 +1,11 @@
+#portfolio{
+    margin-top: 72px;
+    /* background-image: linear-gradient(rgb(161, 159, 164), rgb(105, 103, 108)); */
+    color: var(--platinum);
+    font-family: Merriweather;
+    color: black;
+}
+
+.imgPortfolio {
+    max-width: 450px;
+}

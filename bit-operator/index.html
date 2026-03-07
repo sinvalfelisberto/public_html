@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Visualizador de Shift de Bits</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #262585;
+      --ct: #e2e1f2;
+      --card: #ffffff;
+      --border: #9b9fa3;
+      --primary: #0d6efd;
+      --danger: #dc3545;
+      --text: #212529;
+      --mono: 'Courier New', monospace;
+      --ff: "Roboto", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: var(--ff);
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    h2 {
+      color: var(--text);
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background-color: var(--ct);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #0b5ed7;
+    }
+
+    .bits {
+      background: #f1f3f5;
+      padding: 12px;
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      word-break: break-word;
+    }
+
+    .changed {
+      color: var(--danger);
+      font-weight: bold;
+    }
+
+    .copy-btn {
+      font-size: 0.9rem;
+      padding: 8px 10px;
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+
+    .copy-btn:hover {
+      background-color: #5a6268;
+    }
+
+    h3 {
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+
+    @media (max-width: 768px) {
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .container {
+        padding: 15px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      input, select, button {
+        font-size: 0.95rem;
+      }
+
+      .bits {
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 10px;
+      }
+
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      .copy-btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <h2>🔍 Visualizador de Shift de Bits</h2>
+
+    <div class="card">
+      <label for="inputNumber">Número:</label>
+      <input type="number" id="inputNumber" value="5">
+
+      <label for="operator">Operação:</label>
+      <select id="operator">
+        <option value="<<"><< (Shift à esquerda)</option>
+        <option value=">>">>> (Direita com sinal)</option>
+        <option value=">>>">>>> (Direita sem sinal)</option>
+      </select>
+
+      <label for="positions">Número de posições:</label>
+      <input type="number" id="positions" value="2">
+
+      <button onclick="calcularShift()">Calcular</button>
+    </div>
+
+    <div class="card">
+      <h3>🔢 Valor original</h3>
+      <p><strong>Decimal:</strong> <span id="valorOriginal"></span></p>
+      <p><strong>Hex:</strong> <span id="hexOriginal"></span></p>
+      <div class="bits" id="binarioOriginal"></div>
+      <button class="copy-btn" onclick="copiarTexto('binarioOriginal')">📋 Copiar binário</button>
+    </div>
+
+    <div class="card">
+      <h3>➡️ Valor após shift</h3>
+      <p><strong>Decimal:</strong> <span id="valorShift"></span></p>
+      <p><strong>Hex:</strong> <span id="hexShift"></span></p>
+      <div class="bits" id="binarioShift"></div>
+      <button class="copy-btn" onclick="copiarTexto('binarioShift')">📋 Copiar binário</button>
+    </div>
+  </div>
+
+  <script>
+    function to32Bits(n) {
+      return (n >>> 0).toString(2).padStart(32, '0');
+    }
+
+    function toHex(n) {
+      return '0x' + (n >>> 0).toString(16).toUpperCase().padStart(8, '0');
+    }
+
+    function destacarMudancas(orig, novo) {
+      let resultado = '';
+      for (let i = 0; i < orig.length; i++) {
+        resultado += (orig[i] !== novo[i])
+          ? `<span class="changed">${novo[i]}</span>`
+          : novo[i];
+      }
+      return resultado;
+    }
+
+    function copiarTexto(id) {
+      const el = document.getElementById(id);
+      const temp = document.createElement("textarea");
+      temp.value = el.textContent.replace(/\s/g, '');
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand("copy");
+      document.body.removeChild(temp);
+      alert("Binário copiado!");
+    }
+
+    function calcularShift() {
+      const x = parseInt(document.getElementById('inputNumber').value, 10);
+      const op = document.getElementById('operator').value;
+      const positions = parseInt(document.getElementById('positions').value, 10);
+
+      let resultado;
+      if (op === '<<') resultado = x << positions;
+      else if (op === '>>') resultado = x >> positions;
+      else resultado = x >>> positions;
+
+      const binOrig = to32Bits(x);
+      const binShift = to32Bits(resultado);
+
+      document.getElementById('valorOriginal').textContent = `${x}`;
+      document.getElementById('hexOriginal').textContent = toHex(x);
+      document.getElementById('binarioOriginal').innerHTML = binOrig;
+
+      document.getElementById('valorShift').textContent = `${resultado}`;
+      document.getElementById('hexShift').textContent = toHex(resultado);
+      document.getElementById('binarioShift').innerHTML = destacarMudancas(binOrig, binShift);
+    }
+  </script>
+
+</body>
+</html>
+
