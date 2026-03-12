@@ -1,13 +1,12 @@
-  function toggleMenu() {
-    const menu = document.getElementById("menu");
-    menu.classList.toggle("show");
-  }
-// Fecha o menu se clicar fora dele
-document.addEventListener('click', function(event) {
+function toggleMenu() {
+  const menu = document.getElementById("menu");
+  menu.classList.toggle("show");
+}
+
+document.addEventListener('click', function (event) {
   const menu = document.getElementById('menu');
   const button = document.querySelector('.menu-toggle');
 
-  // Verifica se clicou fora do menu e do botão
   const clickedOutside = !menu.contains(event.target) && !button.contains(event.target);
 
   if (clickedOutside && menu.classList.contains('show')) {
@@ -23,7 +22,7 @@ document.querySelectorAll('#menu a').forEach(link => {
 
 const contatoForm = document.querySelector('#contato form');
 if (contatoForm) {
-  contatoForm.addEventListener('submit', async function(e) {
+  contatoForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const formData = new FormData(this);
